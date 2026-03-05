@@ -619,10 +619,6 @@ abstract class EditActivity(private val type: Type) : LockedActivity<ActivityEdi
         binding.EnterTitle.initHistory(changeHistory) { text ->
             notallyModel.title = text.trim().toString()
         }
-        notallyModel.viewMode.observe(this) { value ->
-            updateToggleViewMode()
-            value?.let { toggleCanEdit(it) }
-        }
         val textMaxLengthFilter = application.textMaxLengthFilter()
         binding.EnterTitle.filters = textMaxLengthFilter
         binding.EnterBody.filters = textMaxLengthFilter
@@ -642,7 +638,14 @@ abstract class EditActivity(private val type: Type) : LockedActivity<ActivityEdi
                 updateSearchResults(this@EditActivity.search.query)
             }
         }
+        setupAdditionalListeners()
+    }
 
+    protected open fun setupAdditionalListeners() {
+        notallyModel.viewMode.observe(this) { value ->
+            updateToggleViewMode()
+            value?.let { toggleCanEdit(it) }
+        }
         preferences.editNoteActivityTopActions.observe(this) { topActions ->
             updateTopActions(topActions)
         }

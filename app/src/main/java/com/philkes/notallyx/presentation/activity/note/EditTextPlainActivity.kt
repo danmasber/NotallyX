@@ -138,7 +138,7 @@ class EditTextPlainActivity : EditActivity(Type.NOTE) {
     }
 
     override fun resetToolbars() {
-        super.resetToolbars()
+        binding.Toolbar.setNavigationOnClickListener { finish() }
         binding.Toolbar.setNavigationIcon(R.drawable.close)
     }
 
@@ -190,6 +190,8 @@ class EditTextPlainActivity : EditActivity(Type.NOTE) {
         }
         setBottomAppBarColor(colorInt)
     }
+
+    override fun setupAdditionalListeners() {}
 
     override fun initChangeHistory() {
         changeHistory =
