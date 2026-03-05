@@ -6,8 +6,6 @@
 
 - Display reminder details directly in notes
 
-- Automatic backup option at specific intervals
-
 - Added reminder repetition options
 
 - Shortcuts to scroll to top or bottom

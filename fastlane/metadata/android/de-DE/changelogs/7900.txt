@@ -6,16 +6,14 @@
 
 - Anzeige von Erinnerungsdetails direkt in der Notiz
 
-- Option für automatische Backups in festen Intervallen
-
 - Wiederholungsoptionen für Erinnerungen hinzugefügt
 
 - Shortcuts zum Scrollen nach ganz oben oder unten
 
-- Detailansicht für Erinnerungseinstellungen
+- Detailansicht für Erinnerungen
 
-- Aktive Benachrichtigungen werden nach Neustart wiederhergestellt
+- Aktive Benachrichtigungen bleiben nach Neustart aktiv
 
-- Verzögerungen (Stuttering) bei der Suche behoben
+- Verzögerungen bei der Suche behoben
 
-- Fehler beim Überschreiben existierender Dateien behoben
+- Fix Fehler beim Überschreiben existierender Dateien
