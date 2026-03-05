@@ -937,7 +937,7 @@ abstract class EditActivity(private val type: Type) : LockedActivity<ActivityEdi
         updateBottomActions(preferences.editNoteActivityBottomAction.value)
     }
 
-    private fun updateTopActions(topActions: List<EditAction>) {
+    protected fun updateTopActions(topActions: List<EditAction>, changeable: Boolean = true) {
         binding.Toolbar.menu.apply {
             clear()
             topActions.forEachIndexed { idx, action ->
@@ -952,10 +952,12 @@ abstract class EditActivity(private val type: Type) : LockedActivity<ActivityEdi
                     actionHandler.handleAction(action)
                 }
                 // Try to get the view for long click
-                binding.Toolbar.post {
-                    findViewById<View>(idx)?.setOnLongClickListener {
-                        showActionSelectionDialog(action, idx)
-                        true
+                if (changeable) {
+                    binding.Toolbar.post {
+                        findViewById<View>(idx)?.setOnLongClickListener {
+                            showActionSelectionDialog(action, idx)
+                            true
+                        }
                     }
                 }
             }

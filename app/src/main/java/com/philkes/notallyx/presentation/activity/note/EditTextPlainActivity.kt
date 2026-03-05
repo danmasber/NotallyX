@@ -22,6 +22,7 @@ import com.philkes.notallyx.presentation.setCancelButton
 import com.philkes.notallyx.presentation.setOnNextAction
 import com.philkes.notallyx.presentation.showKeyboard
 import com.philkes.notallyx.presentation.showToast
+import com.philkes.notallyx.presentation.viewmodel.preference.EditAction
 import com.philkes.notallyx.utils.changehistory.ChangeHistory
 import com.philkes.notallyx.utils.findAllOccurrences
 import com.philkes.notallyx.utils.getFileName
@@ -140,6 +141,7 @@ class EditTextPlainActivity : EditActivity(Type.NOTE) {
     override fun resetToolbars() {
         binding.Toolbar.setNavigationOnClickListener { finish() }
         binding.Toolbar.setNavigationIcon(R.drawable.close)
+        updateTopActions(listOf(EditAction.SEARCH), changeable = false)
     }
 
     override fun setStateFromModel(savedInstanceState: Bundle?) {
