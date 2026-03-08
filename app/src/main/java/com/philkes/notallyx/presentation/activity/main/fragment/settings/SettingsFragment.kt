@@ -847,7 +847,7 @@ class SettingsFragment : Fragment() {
                     .setCancelButton()
                     .show()
             }
-            Donate.setOnClickListener { openLink("https://ko-fi.com/philkes") }
+            Donate.setOnClickListener { openLink("https://ko-fi.com/crustack") }
             ViewLogs.setOnClickListener { (requireContext() as ContextWrapper).viewLogs() }
 
             try {
