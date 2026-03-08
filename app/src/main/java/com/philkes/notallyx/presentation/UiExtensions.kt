@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.Typeface
@@ -56,6 +57,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
@@ -114,7 +116,9 @@ import com.philkes.notallyx.utils.changehistory.EditTextState
 import com.philkes.notallyx.utils.changehistory.EditTextWithHistoryChange
 import com.philkes.notallyx.utils.getUrl
 import java.util.Date
+import me.zhanghai.android.fastscroll.FastScrollNestedScrollView
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
+import me.zhanghai.android.fastscroll.PopupStyles
 import org.ocpsoft.prettytime.PrettyTime
 
 /**
@@ -247,6 +251,7 @@ fun Menu.add(
 fun ViewGroup.addIconButton(
     title: Int,
     drawable: Int,
+    colorInt: Int,
     marginStart: Int = 10,
     onLongClick: View.OnLongClickListener? = null,
     onClick: View.OnClickListener? = null,
@@ -274,6 +279,7 @@ fun ViewGroup.addIconButton(
                     )
                     .apply { setMargins(marginStart.dp, marginTop, 0, marginBottom) }
             setPadding(8.dp)
+            setControlsContrastColorForAllViews(colorInt)
         }
     addView(view)
     return view
@@ -718,6 +724,9 @@ fun View.setControlsColorForAllViews(
                 )
             setStrokeColor(colorStateList)
         }
+        if (this is FastScrollNestedScrollView) {
+            this.addFastScroll(context, controlsColor)
+        }
     } else {
         val controlsStateList =
             ColorStateList(
@@ -730,9 +739,12 @@ fun View.setControlsColorForAllViews(
         if (this is Chip) {
             setTextColor(controlsStateList)
             setLinkTextColor(controlsStateList)
-            chipBackgroundColor = ColorStateList.valueOf(backgroundColor)
+            val chipColor = backgroundColor.getSlightContrastColor()
+            chipBackgroundColor = ColorStateList.valueOf(chipColor)
             chipIconTint = controlsStateList
             chipStrokeColor = controlsStateList
+            closeIconTint = controlsStateList
+            checkedIconTint = controlsStateList
             return
         }
         if (this is TextView) {
@@ -853,6 +865,16 @@ fun Context.getContrastFontColor(@ColorInt backgroundColor: Int): Int {
 }
 
 fun @receiver:ColorInt Int.isLightColor() = ColorUtils.calculateLuminance(this) > 0.5
+
+@ColorInt
+fun @receiver:ColorInt Int.getSlightContrastColor(): Int {
+    val overlayColor = if (this.isLightColor()) Color.BLACK else Color.WHITE
+    // Composite black/white over the background color
+    return ColorUtils.compositeColors(
+        ColorUtils.setAlphaComponent(overlayColor, 15), // ~10% alpha
+        this,
+    )
+}
 
 fun MaterialAlertDialogBuilder.setCancelButton(listener: DialogInterface.OnClickListener? = null) =
     setNegativeButton(R.string.cancel, listener)
@@ -986,12 +1008,24 @@ fun Context.extractColor(color: String): Int {
     }
 }
 
-fun ViewGroup.addFastScroll(context: Context) {
-    FastScrollerBuilder(this)
-        .useMd2Style()
-        .setTrackDrawable(ContextCompat.getDrawable(context, R.drawable.scroll_track)!!)
-        .setPadding(0, 0, 2.dp, 0)
-        .build()
+fun ViewGroup.addFastScroll(context: Context, @ColorInt colorInt: Int) {
+    FastScrollerBuilder(this).useColoredStyle(context, colorInt).build()
+}
+
+fun FastScrollerBuilder.useColoredStyle(
+    context: Context,
+    @ColorInt colorInt: Int,
+): FastScrollerBuilder {
+    AppCompatResources.getDrawable(context, me.zhanghai.android.fastscroll.R.drawable.afs_md2_thumb)
+        ?.mutate()
+        ?.let {
+            DrawableCompat.setTint(it, colorInt)
+            setThumbDrawable(it)
+        }
+    ContextCompat.getDrawable(context, R.drawable.scroll_track)?.let { setTrackDrawable(it) }
+    setPadding(0, 0, 2.dp, 0)
+    setPopupStyle(PopupStyles.MD2)
+    return this
 }
 
 fun Window.setLightStatusAndNavBar(value: Boolean, view: View = decorView) {
@@ -1110,7 +1144,6 @@ fun Chip.setupReminderChip(baseNote: BaseNote) {
         visibility = VISIBLE
         text = mostRecentNotificationDate.format()
         setCloseIconVisible(baseNote.reminders.haveAnyRepetition())
-        setChipBackgroundColorResource(R.color.md_theme_secondaryContainer)
         val isElapsed = mostRecentNotificationDate < now
         alpha = if (isElapsed) 0.5f else 1.0f
         paintFlags =
