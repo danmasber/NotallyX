@@ -223,6 +223,24 @@ class IntPreference(
     }
 }
 
+class FloatPreference(
+    val key: String,
+    sharedPreferences: SharedPreferences,
+    defaultValue: Float,
+    val min: Float,
+    val max: Float,
+    titleResId: Int? = null,
+) : BasePreference<Float>(sharedPreferences, defaultValue, titleResId) {
+
+    override fun getValue(sharedPreferences: SharedPreferences): Float {
+        return sharedPreferences.getFloat(key, defaultValue)
+    }
+
+    override fun SharedPreferences.Editor.put(value: Float) {
+        putFloat(key, value)
+    }
+}
+
 class LongPreference(val key: String, sharedPreferences: SharedPreferences, defaultValue: Long) :
     BasePreference<Long>(sharedPreferences, defaultValue) {
 
@@ -348,47 +366,22 @@ enum class DateFormat : TextProvider {
     }
 }
 
-enum class TextSize(override val textResId: Int) : StaticTextProvider {
-    SMALL(R.string.small),
-    MEDIUM(R.string.medium),
-    LARGE(R.string.large);
+typealias TextSizeSp = Float
 
-    val editBodySize: Float
-        get() {
-            return when (this) {
-                SMALL -> 14f
-                MEDIUM -> 16f
-                LARGE -> 18f
-            }
-        }
+val TextSizeSp.editBodySize: Float
+    get() = this
 
-    val editTitleSize: Float
-        get() {
-            return when (this) {
-                SMALL -> 18f
-                MEDIUM -> 20f
-                LARGE -> 22f
-            }
-        }
+val TextSizeSp.editTitleSize: Float
+    get() = (this + 4)
 
-    val displayBodySize: Float
-        get() {
-            return when (this) {
-                SMALL -> 12f
-                MEDIUM -> 14f
-                LARGE -> 16f
-            }
-        }
+val TextSizeSp.displayBodySize: Float
+    get() = (this - 2)
 
-    val displayTitleSize: Float
-        get() {
-            return when (this) {
-                SMALL -> 14f
-                MEDIUM -> 16f
-                LARGE -> 18f
-            }
-        }
-}
+val TextSizeSp.displaySmallerSize: Float
+    get() = (this - 3)
+
+val TextSizeSp.displayTitleSize: Float
+    get() = this
 
 enum class ListItemSort(override val textResId: Int) : StaticTextProvider {
     NO_AUTO_SORT(R.string.no_auto_sort),
