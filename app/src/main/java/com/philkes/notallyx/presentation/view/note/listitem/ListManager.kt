@@ -28,6 +28,7 @@ import com.philkes.notallyx.utils.changehistory.ListEditTextChange
 import com.philkes.notallyx.utils.changehistory.ListIsChildChange
 import com.philkes.notallyx.utils.changehistory.ListMoveChange
 import com.philkes.notallyx.utils.lastIndex
+import com.philkes.notallyx.utils.uniqueCurrentMillis
 
 data class ListState(
     val items: MutableList<ListItem>,
@@ -323,7 +324,9 @@ class ListManager(
         val parents =
             items.findParentsByChecked(!checked) +
                 (itemsChecked?.findParentsByChecked(!checked) ?: listOf())
-        parents.forEach { parent -> changeCheckedParent(parent, checked, true) }
+        parents
+            .sortedBy { it.order ?: -1 }
+            .forEach { parent -> changeCheckedParent(parent, checked, true) }
         if (pushChange) {
             changeHistory.push(ChangeCheckedForAllChange(stateBefore, getState(), this))
         }
@@ -458,7 +461,7 @@ class ListManager(
     ) {
         if (checked) {
             child.checked = true
-            child.checkedTimestamp = System.currentTimeMillis()
+            child.checkedTimestamp = uniqueCurrentMillis()
             adapter.notifyItemChanged(position)
             val (_, parent) = items.findParent(child)!!
             parent.updateParentChecked()
@@ -531,7 +534,7 @@ class ListManager(
         val (parentPos, parent) = items.findParent(item)!!
         if (parent.checked != checked) {
             parent.checked = checked
-            parent.checkedTimestamp = if (checked) System.currentTimeMillis() else null
+            parent.checkedTimestamp = if (checked) uniqueCurrentMillis() else null
             adapter.notifyItemChanged(parentPos)
         }
     }

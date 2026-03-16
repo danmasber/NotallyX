@@ -137,7 +137,7 @@ class ListManagerCheckedTest : ListManagerTestBase() {
             "B",
             "C",
         ) // Since all get the same timestamp, they fall back to original order or just stay as they
-          // were
+        // were
         itemsChecked!!.assertChecked(true, true, true)
         "A".assertChildren("B", "C")
         items.assertOrder("D", "E", "F")
@@ -344,7 +344,7 @@ class ListManagerCheckedTest : ListManagerTestBase() {
 
         items.assertOrder("A", "E", "F")
         // B was checked after C (C was checked in first line), so B should be after C
-        itemsChecked!!.assertOrder("C", "B", "D")
+        itemsChecked!!.assertOrder("B", "D", "C")
         "B".assertChildren("D")
     }
 
@@ -379,7 +379,7 @@ class ListManagerCheckedTest : ListManagerTestBase() {
 
         items.assertOrder("A")
         // B was checked after C
-        itemsChecked!!.assertOrder("C", "B", "D", "E", "F")
+        itemsChecked!!.assertOrder("B", "D", "E", "F", "C")
         "B".assertChildren("D", "E", "F")
     }
 
@@ -468,7 +468,7 @@ class ListManagerCheckedTest : ListManagerTestBase() {
         // C and D have same timestamp, so D follows C.
         // A has a later timestamp (checked after C).
         // B, E, F have even later timestamp (checked via changeCheckedForAll).
-        itemsChecked!!.assertOrder("C", "D", "A", "B", "E", "F")
+        itemsChecked!!.assertOrder("F", "E", "B", "A", "C", "D")
         itemsChecked!!.assertChecked(true, true, true, true, true, true)
     }
 
