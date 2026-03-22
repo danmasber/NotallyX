@@ -560,7 +560,7 @@ class MainActivity : LockedActivity<ActivityMainBinding>() {
                             ?.let { menuItem -> menuItem.isChecked = true }
                     }
 
-                R.id.Hidden -> {
+                R.id.Unlabeled -> {
                     baseModel.currentLabel = CURRENT_LABEL_NONE
                     binding.NavigationView.setCheckedItem(destination.id)
                 }
