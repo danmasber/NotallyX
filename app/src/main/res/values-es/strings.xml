@@ -100,7 +100,9 @@
     <string name="date_format">Formato de fecha</string>
     <string name="date_format_apply_in_note_view">Aplicar también en la vista de nota</string>
     <string name="date_format_hint">Aplica el formato de fecha seleccionado en la vista general de notas</string>
+    <string name="day">Día</string>
     <string name="days">Días</string>
+    <string name="default_list_note_view_mode">Modo de visualización predeterminado de la lista de notas</string>
     <string name="delete">Eliminar</string>
     <string name="delete_all">Borrar todo</string>
     <string name="delete_all_notes">¿Borrar todas las notas\?</string>
@@ -203,6 +205,7 @@
     <string name="item">Elemento</string>
     <string name="json_files">Ficheros JSON</string>
     <string name="json_files_help">Para importar tus notas desde ficheros JSON (fichero único o carpeta), pincha en Importar. Cada fichero fichero JSON válido se importa como nota separada, el nombre del fichero será el título de la nota.</string>
+    <string name="jump_to_top">Ir al inicio de la página</string>
     <string name="label_exists">Etiqueta existe</string>
     <string name="label_visibility">Ocultar/mostrar etiqueta en el panel de navegación</string>
     <string name="labels">Etiquetas</string>
@@ -216,6 +219,7 @@
     <string name="list">Lista</string>
     <string name="list_item_auto_sort">Ordenar lista de elementos</string>
     <string name="locked">Bloqueado</string>
+    <string name="make_default">Establecer como predeterminado</string>
     <string name="make_feature_request">Hacer petición de característica</string>
     <string name="make_list">Hacer lista</string>
     <string name="max_backups">Cantidad de copias a mantener</string>
@@ -224,6 +228,7 @@
     <string name="max_lines_to_display">Número máximo de elementos para mostrar en nota</string>
     <string name="max_lines_to_display_title">Número máximo de líneas en el título</string>
     <string name="medium">Mediano</string>
+    <string name="migration_splitting_notes">Dividir notas de gran tamaño…</string>
     <string name="minutes">Minutos</string>
     <string name="modified_date">Modificado</string>
     <string name="monospace">Monoespaciado</string>
@@ -240,8 +245,10 @@
     <string name="none">Ninguno</string>
     <string name="not_exists">\'%1$s’ no existe</string>
     <string name="note">Nota</string>
+    <string name="note_too_big_truncating">La nota es demasiado grande para guardarla; se ha recortado a %1$s caracteres (antes: %2$s)</string>
     <string name="notes">Notas</string>
     <string name="notes_sorted_by">Notas ordenadas por</string>
+    <string name="of_the_month_last">Último %1$s del mes</string>
     <string name="open_link">Abrir enlace</string>
     <string name="open_note">Abrir nota</string>
     <string name="others">Otros</string>
@@ -293,6 +300,7 @@
     <string name="select_labels">Seleccionar etiquetas</string>
     <string name="select_note">Seleccionar nota</string>
     <string name="send_feedback">Enviar comentarios</string>
+    <string name="set_as_default_color_message">Establece este color como predeterminado para las notas nuevas</string>
     <string name="settings">Ajustes</string>
     <string name="share">Compartir</string>
     <string name="single_file">Un fichero</string>
@@ -308,6 +316,7 @@
     <string name="start_view_hint">Seleccione qué vista o etiqueta se debe mostrar cuando se inicia la aplicación.\nLa opción predeterminada es la vista de notas principal</string>
     <string name="stop">Detener</string>
     <string name="strikethrough">Tachado</string>
+    <string name="swap_action">Acción de intercambio</string>
     <string name="take_note">Tomar nota</string>
     <string name="tap_for_more_options">Tocar para más opciones</string>
     <string name="tap_to_set_up">Toque para configurar</string>
@@ -343,4 +352,21 @@
     <string name="yearly">Anual</string>
     <string name="years">Años</string>
     <string name="your_notes_associated">Tus notas asociadas con esta etiqueta no serán eliminadas</string>
+    <string name="hiddens">Ocultas</string>
+    <string name="hidden">Ocultar</string>
+    <string name="unhidden">Desocultar</string>
+    <plurals name="hidden_selected_notes">
+        <item quantity="one">%1$d nota oculta</item>
+        <item quantity="other">%1$d notas ocultas</item>
+    </plurals>
+    <string name="hidden_lock_title">Mostrar ocultas</string>
+    <string name="last_used">Último usado</string>
+    <string name="duplicate">Duplicar</string>
+    <string name="default_color_hint">Este es el color predeterminado para las notas nuevas. Para cambiarlo, establece otro color como predeterminado.</string>
+    <string name="jump_to_bottom">Ir al final de la página</string>
+    <string name="migrating_data">Migrando datos…</string>
+    <string name="migration_moving_attachments">Movimiento de archivos adjuntos…</string>
+    <string name="note_text_too_long_truncated">El texto es demasiado largo, se ha acortado a %1$d caracteres</string>
+    <string name="of_the_month">%1$s del mes</string>
+    <string name="set_as_default_color">\\¿Establecer como color predeterminado\\?</string>
 </resources>

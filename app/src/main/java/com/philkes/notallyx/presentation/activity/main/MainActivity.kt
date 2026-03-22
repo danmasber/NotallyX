@@ -285,10 +285,13 @@ class MainActivity : LockedActivity<ActivityMainBinding>() {
             add(2, R.id.Archived, CATEGORY_SYSTEM + 2, R.string.archived)
                 .setCheckable(true)
                 .setIcon(R.drawable.archive)
-            add(3, R.id.Reminders, CATEGORY_SYSTEM + 3, R.string.reminders)
+            add(2, R.id.Hidden, CATEGORY_SYSTEM + 3, R.string.hiddens)
+                .setCheckable(true)
+                .setIcon(R.drawable.hidden)
+            add(3, R.id.Reminders, CATEGORY_SYSTEM + 4, R.string.reminders)
                 .setCheckable(true)
                 .setIcon(R.drawable.notifications)
-            add(3, R.id.Settings, CATEGORY_SYSTEM + 4, R.string.settings)
+            add(4, R.id.Settings, CATEGORY_SYSTEM + 5, R.string.settings)
                 .setCheckable(true)
                 .setIcon(R.drawable.settings)
         }
@@ -556,10 +559,12 @@ class MainActivity : LockedActivity<ActivityMainBinding>() {
                             .find { menuItem -> menuItem.title == it }
                             ?.let { menuItem -> menuItem.isChecked = true }
                     }
-                R.id.Unlabeled -> {
+
+                R.id.Hidden -> {
                     baseModel.currentLabel = CURRENT_LABEL_NONE
                     binding.NavigationView.setCheckedItem(destination.id)
                 }
+
                 else -> {
                     baseModel.currentLabel = CURRENT_LABEL_EMPTY
                     binding.NavigationView.setCheckedItem(destination.id)
@@ -646,6 +651,7 @@ class MainActivity : LockedActivity<ActivityMainBinding>() {
                         baseModel.duplicateSelectedBaseNotes()
                     }
                     menu.add(R.string.archive, R.drawable.archive) { moveNotes(Folder.ARCHIVED) }
+                    menu.add(R.string.hidden, R.drawable.hidden) { moveNotes(Folder.HIDDEN) }
                     menu.addChangeColor()
                     val share = menu.addShare()
                     menu.addExportMenu()
@@ -683,6 +689,22 @@ class MainActivity : LockedActivity<ActivityMainBinding>() {
                     ) {
                         deleteForever()
                     }
+                    menu.addExportMenu()
+                    menu.addChangeColor()
+                    val share = menu.add(R.string.share, R.drawable.share) { share() }
+                    model.actionMode.count.observeCount(this@MainActivity, share)
+                }
+
+                Folder.HIDDEN -> {
+                    menu.add(
+                        R.string.unhidden,
+                        R.drawable.unhidden,
+                        MenuItem.SHOW_AS_ACTION_ALWAYS,
+                    ) {
+                        moveNotes(Folder.NOTES)
+                    }
+                    menu.addDelete(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                    menu.addLabels(MenuItem.SHOW_AS_ACTION_ALWAYS)
                     menu.addExportMenu()
                     menu.addChangeColor()
                     val share = menu.add(R.string.share, R.drawable.share) { share() }
@@ -861,6 +883,7 @@ class MainActivity : LockedActivity<ActivityMainBinding>() {
                 }
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

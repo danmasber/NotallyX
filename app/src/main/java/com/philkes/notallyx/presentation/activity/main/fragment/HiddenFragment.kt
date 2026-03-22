@@ -1,0 +1,38 @@
+package com.philkes.notallyx.presentation.activity.main.fragment
+
+import android.os.Bundle
+import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
+import androidx.lifecycle.LiveData
+import com.philkes.notallyx.R
+import com.philkes.notallyx.data.model.Folder
+import com.philkes.notallyx.data.model.Item
+import com.philkes.notallyx.utils.security.showBiometricOrPinPromptHidden
+
+open class HiddenFragment : NotallyFragment() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        model.folder.value = Folder.HIDDEN
+    }
+
+    override fun getBackground() = R.drawable.label_off
+
+    override fun getObservable(): LiveData<List<Item>> {
+        return model.hiddenNotes!!
+    }
+
+    override fun onStart() {
+        super.onStart()
+        hide()
+        showBiometricOrPinPromptHidden(this, R.string.hidden_lock_title, onSuccess = { show() }) {}
+    }
+
+    protected fun show() {
+        binding!!.root.visibility = VISIBLE
+    }
+
+    protected fun hide() {
+        binding!!.root.visibility = INVISIBLE
+    }
+}
