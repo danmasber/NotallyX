@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.philkes.notallyx.R
+import com.philkes.notallyx.utils.canAuthenticateWithBiometrics
 import javax.crypto.Cipher
 
 fun Activity.showBiometricOrPinPrompt(
@@ -122,8 +123,16 @@ fun showBiometricOrPinPromptHidden(
         }
 
         else -> {
+            if (
+                fragment.requireContext().canAuthenticateWithBiometrics() !=
+                    android.hardware.biometrics.BiometricManager.BIOMETRIC_SUCCESS
+            ) {
+                onSuccess.invoke()
+                return
+            }
             // API 21-22: No biometric support, fallback to PIN/Password
             promptPinAuthentication(fragment.requireContext(), null, titleResId, onFailure)
+            onSuccess.invoke()
         }
     }
 }
