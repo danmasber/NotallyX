@@ -387,6 +387,6 @@
     <string name="your_notes_associated">Your notes attached to this label will not be deleted</string>
     <string name="hiddens">Hidden</string>
     <string name="hidden">Hidden</string>
-    <string name="unhidden">Hidden</string>
+    <string name="unhidden">Unhidden</string>
     <string name="hidden_lock_title">Show hidden</string>
 </resources>
