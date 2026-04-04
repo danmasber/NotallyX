@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.Settings
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -376,10 +377,15 @@ class SettingsFragment : Fragment() {
         }
 
         autoRemoveDeletedNotesAfterDays.observe(viewLifecycleOwner) { value ->
-            binding.AutoEmptyBin.setupAutoEmptyBin(
+            binding.AutoEmptyBin.setup(
                 autoRemoveDeletedNotesAfterDays,
                 requireContext(),
+                labelFormatter = { v ->
+                    if (v == 0) requireContext().getString(R.string.off)
+                    else "$v ${requireContext().getString(R.string.days)}"
+                },
             ) { newValue ->
+                Log.d("Stepper", "save auto remove")
                 model.savePreference(autoRemoveDeletedNotesAfterDays, newValue)
                 val workManager = WorkManager.getInstance(requireContext())
                 if (newValue > 0) {
@@ -768,8 +774,13 @@ class SettingsFragment : Fragment() {
                     }
                 }
             }
-            AutoSaveAfterIdle.setupAutoSaveIdleTime(autoSaveAfterIdleTime, requireContext()) {
-                newValue ->
+            AutoSaveAfterIdle.setup(
+                autoSaveAfterIdleTime,
+                requireContext(),
+                labelFormatter = { v ->
+                    if (v == -1) requireContext().getString(R.string.off) else "${v}s"
+                },
+            ) { newValue ->
                 model.savePreference(autoSaveAfterIdleTime, newValue)
             }
 
