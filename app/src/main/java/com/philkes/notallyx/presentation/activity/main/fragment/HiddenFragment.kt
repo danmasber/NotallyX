@@ -30,7 +30,7 @@ open class HiddenFragment : NotallyFragment() {
             this,
             R.string.hidden_lock_title,
             onSuccess = { show() },
-            onFailure = { findNavController().navigateUp() },
+            onFailure = { findNavController().popBackStack() },
         )
     }
 
