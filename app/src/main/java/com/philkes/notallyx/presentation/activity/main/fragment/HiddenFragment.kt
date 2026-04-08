@@ -5,6 +5,7 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.lifecycle.LiveData
+import androidx.navigation.fragment.findNavController
 import com.philkes.notallyx.R
 import com.philkes.notallyx.data.model.Folder
 import com.philkes.notallyx.data.model.Item
@@ -25,14 +26,19 @@ open class HiddenFragment : NotallyFragment() {
     override fun onStart() {
         super.onStart()
         hide()
-        showBiometricOrPinPromptHidden(this, R.string.hidden_lock_title, onSuccess = { show() }) {}
+        showBiometricOrPinPromptHidden(
+            this,
+            R.string.hidden_lock_title,
+            onSuccess = { show() },
+            onFailure = { findNavController().navigateUp() },
+        )
     }
 
     protected fun show() {
-        binding!!.root.visibility = VISIBLE
+        binding?.root?.visibility = VISIBLE
     }
 
     protected fun hide() {
-        binding!!.root.visibility = INVISIBLE
+        binding?.root?.visibility = INVISIBLE
     }
 }

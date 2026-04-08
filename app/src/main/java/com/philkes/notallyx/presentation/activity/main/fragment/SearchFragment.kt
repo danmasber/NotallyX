@@ -26,7 +26,7 @@ class SearchFragment : NotallyFragment() {
 
         val initialLabel = arguments?.getString(EXTRA_INITIAL_LABEL)
         model.currentLabel = initialLabel
-        if (initialLabel?.isEmpty() == true) {
+        if (initialLabel?.isEmpty() == true && model.folder.value != Folder.HIDDEN) {
             val checked =
                 when (initialFolder ?: model.folder.value) {
                     Folder.NOTES -> R.id.Notes
