@@ -17,7 +17,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import androidx.room.withTransaction
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.philkes.notallyx.R
 import com.philkes.notallyx.data.NotallyDatabase
@@ -64,16 +63,12 @@ import com.philkes.notallyx.presentation.viewmodel.progress.ExportNotesProgress
 import com.philkes.notallyx.utils.ActionMode
 import com.philkes.notallyx.utils.Cache
 import com.philkes.notallyx.utils.MIME_TYPE_JSON
-import com.philkes.notallyx.utils.backup.clearAllFolders
-import com.philkes.notallyx.utils.backup.clearAllLabels
 import com.philkes.notallyx.utils.backup.copyDatabase
 import com.philkes.notallyx.utils.backup.exportAsZip
 import com.philkes.notallyx.utils.backup.exportPdfFile
 import com.philkes.notallyx.utils.backup.exportPdfFileFolder
 import com.philkes.notallyx.utils.backup.exportPlainTextFile
 import com.philkes.notallyx.utils.backup.exportPlainTextFileFolder
-import com.philkes.notallyx.utils.backup.getPreviousLabels
-import com.philkes.notallyx.utils.backup.getPreviousNotes
 import com.philkes.notallyx.utils.backup.importZip
 import com.philkes.notallyx.utils.backup.readAsBackup
 import com.philkes.notallyx.utils.cancelPinAndReminders
@@ -111,7 +106,7 @@ class BaseNoteModel(private val app: Application) : AndroidViewModel(app) {
 
     lateinit var selectedExportMimeType: ExportMimeType
 
-    var labels: LiveData<List<String>> = NotNullLiveData(mutableListOf())
+    var labels: LiveData<List<Label>> = NotNullLiveData(mutableListOf())
     var reminders: LiveData<List<NoteReminder>> = NotNullLiveData(mutableListOf())
     private var allNotes: LiveData<List<BaseNote>>? = NotNullLiveData(mutableListOf())
     private var allNotesObserver: Observer<List<BaseNote>>? = null
@@ -202,19 +197,6 @@ class BaseNoteModel(private val app: Application) : AndroidViewModel(app) {
             searchResults = SearchResult(app, viewModelScope, baseNoteDao, ::transform)
         } else {
             searchResults!!.baseNoteDao = baseNoteDao
-        }
-
-        viewModelScope.launch {
-            val previousNotes = app.getPreviousNotes()
-            val previousLabels = app.getPreviousLabels()
-            if (previousNotes.isNotEmpty() || previousLabels.isNotEmpty()) {
-                database.withTransaction {
-                    labelDao.insert(previousLabels)
-                    baseNoteDao.insertSafe(app, previousNotes)
-                    app.clearAllLabels()
-                    app.clearAllFolders()
-                }
-            }
         }
     }
 
@@ -771,8 +753,15 @@ class BaseNoteModel(private val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun insertLabel(label: Label, onComplete: (success: Boolean) -> Unit) =
-        executeAsyncWithCallback({ labelDao.insert(label) }, onComplete)
+    fun insertLabel(label: String, onComplete: (success: Boolean) -> Unit) =
+        executeAsyncWithCallback(
+            { labelDao.insert(Label(label, (labelDao.getMaxOrder() ?: -1) + 1)) },
+            onComplete,
+        )
+
+    fun updateLabels(labels: List<Label>) {
+        viewModelScope.launch(Dispatchers.IO) { labelDao.update(labels) }
+    }
 
     fun updateLabel(oldValue: String, newValue: String, onComplete: (success: Boolean) -> Unit) {
         executeAsyncWithCallback({ commonDao.updateLabel(oldValue, newValue) }, onComplete)
