@@ -126,7 +126,6 @@
     <string name="delete_image_forever">Delete image forever\?</string>
     <string name="delete_label">Delete label\?</string>
     <string name="delete_note_forever">Delete note forever\?</string>
-    <string name="delete_reminder">Delete Reminder</string>
     <string name="delete_reminder_question">Delete reminder\?</string>
     <string name="delete_selected_notes">Delete selected notes\?</string>
     <string name="deleted">Deleted</string>
