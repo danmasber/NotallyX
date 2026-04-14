@@ -73,7 +73,6 @@ import com.philkes.notallyx.presentation.view.note.audio.AudioAdapter
 import com.philkes.notallyx.presentation.view.note.preview.PreviewFileAdapter
 import com.philkes.notallyx.presentation.view.note.preview.PreviewImageAdapter
 import com.philkes.notallyx.presentation.viewmodel.NotallyModel
-import com.philkes.notallyx.presentation.viewmodel.preference.DateFormat
 import com.philkes.notallyx.presentation.viewmodel.preference.EditAction
 import com.philkes.notallyx.presentation.viewmodel.preference.NotallyXPreferences
 import com.philkes.notallyx.presentation.viewmodel.preference.NotesSortBy
@@ -353,7 +352,17 @@ abstract class EditActivity(private val type: Type) : LockedActivity<ActivityEdi
                         grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
                     actionHandler.startRecordAudioActivity()
-                } else actionHandler.handleRejection()
+                } else handleRejection(R.string.to_record_audio)
+            }
+            NoteActionHandler.REQUEST_NOTIFICATION_PERMISSION_PIN_TO_STATUS -> {
+                if (
+                    grantResults.isNotEmpty() &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    notallyModel.isPinnedToStatus = true
+                    bindPinned()
+                    refreshStatusBarPin(notallyModel.getBaseNote())
+                } else handleRejection(R.string.to_pin_note_status_bar)
             }
         }
     }
@@ -641,6 +650,7 @@ abstract class EditActivity(private val type: Type) : LockedActivity<ActivityEdi
                 notallyModel.viewMode.value,
                 notallyModel.folder,
                 notallyModel.type,
+                notallyModel.isPinnedToStatus,
             )
         val button = addIconButton(title, icon, colorInt) { actionHandler.handleAction(action) }
 
@@ -709,12 +719,13 @@ abstract class EditActivity(private val type: Type) : LockedActivity<ActivityEdi
 
                 else -> Pair(null, null)
             }
-        val dateFormat =
-            if (preferences.applyDateFormatInNoteView.value) {
-                preferences.dateFormat.value
-            } else DateFormat.ABSOLUTE
         binding.Date.apply {
-            displayFormattedTimestamp(date, dateFormat, datePrefixResId)
+            displayFormattedTimestamp(
+                date,
+                preferences.dateFormatNoteView.value,
+                preferences.timeFormatNoteView.value,
+                datePrefixResId,
+            )
             setTextSizeSp(notallyModel.textSize.displaySmallerSize)
         }
         binding.EnterTitle.setText(notallyModel.title)
@@ -999,6 +1010,7 @@ abstract class EditActivity(private val type: Type) : LockedActivity<ActivityEdi
                         notallyModel.viewMode.value,
                         notallyModel.folder,
                         notallyModel.type,
+                        notallyModel.isPinnedToStatus,
                     )
                 add(title, icon, MenuItem.SHOW_AS_ACTION_ALWAYS, itemId = idx) {
                     actionHandler.handleAction(action)
@@ -1021,6 +1033,8 @@ abstract class EditActivity(private val type: Type) : LockedActivity<ActivityEdi
         notallyModel.originalNote?.let { note ->
             binding.EditNoteReminderChip.setupReminderChip(
                 note,
+                preferences.dateFormatNoteView.value,
+                preferences.timeFormatNoteView.value,
                 notallyModel.textSize.displaySmallerSize,
             )
             binding.EditNoteReminderChip.setOnClickListener {

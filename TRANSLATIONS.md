@@ -19,34 +19,35 @@ See [Android Translations Converter](https://github.com/Crustack/android-transla
 <!-- translations:start -->
 | Language | Coverage |
 |----------|----------|
-| 🇺🇸 English | 100% (347/347) |
-| 🇪🇸 Catalan | 18% (65/347) |
-| 🇨🇿 Czech | 96% (336/347) |
-| 🇩🇰 Danish | 19% (69/347) |
-| 🇩🇪 German | 96% (336/347) |
-| 🇬🇷 Greek | 20% (72/347) |
-| 🇪🇸 Spanish | 90% (315/347) |
-| 🇫🇷 French | 94% (328/347) |
-| 🇭🇺 Hungarian | 18% (65/347) |
-| 🇮🇩 Indonesian | 21% (75/347) |
-| 🇮🇹 Italian | 84% (292/347) |
-| 🇯🇵 Japanese | 21% (73/347) |
-| 🇲🇲 Burmese | 26% (91/347) |
-| 🇳🇴 Norwegian Bokmål | 30% (107/347) |
-| 🇳🇱 Dutch | 61% (213/347) |
-| 🇳🇴 Norwegian Nynorsk | 30% (107/347) |
-| 🇵🇱 Polish | 86% (301/347) |
-| 🇧🇷 Portuguese (Brazil) | 90% (313/347) |
-| 🇵🇹 Portuguese (Portugal) | 20% (71/347) |
-| 🇷🇴 Romanian | 87% (302/347) |
-| 🇷🇺 Russian | 88% (306/347) |
-| 🇸🇰 Slovak | 18% (65/347) |
-| 🇸🇮 Slovenian | 31% (110/347) |
-| 🇸🇪 Swedish | 18% (63/347) |
-| 🇵🇭 Tagalog | 18% (65/347) |
-| 🇹🇷 Turkish | 21% (73/347) |
-| 🇺🇦 Ukrainian | 95% (332/347) |
-| 🇻🇳 Vietnamese | 31% (108/347) |
-| 🇨🇳 Chinese (Simplified) | 98% (341/347) |
-| 🇹🇼 Chinese (Traditional) | 85% (295/347) |
+| 🇺🇸 English | 100% (364/364) |
+| 🏳️ ar | 97% (355/364) |
+| 🇪🇸 Catalan | 17% (65/364) |
+| 🇨🇿 Czech | 92% (335/364) |
+| 🇩🇰 Danish | 18% (69/364) |
+| 🇩🇪 German | 92% (335/364) |
+| 🇬🇷 Greek | 19% (72/364) |
+| 🇪🇸 Spanish | 94% (344/364) |
+| 🇫🇷 French | 89% (327/364) |
+| 🇭🇺 Hungarian | 17% (65/364) |
+| 🇮🇩 Indonesian | 20% (75/364) |
+| 🇮🇹 Italian | 79% (291/364) |
+| 🇯🇵 Japanese | 20% (73/364) |
+| 🇲🇲 Burmese | 25% (91/364) |
+| 🇳🇴 Norwegian Bokmål | 29% (107/364) |
+| 🇳🇱 Dutch | 58% (213/364) |
+| 🇳🇴 Norwegian Nynorsk | 29% (107/364) |
+| 🇵🇱 Polish | 82% (300/364) |
+| 🇧🇷 Portuguese (Brazil) | 85% (312/364) |
+| 🇵🇹 Portuguese (Portugal) | 19% (71/364) |
+| 🇷🇴 Romanian | 82% (301/364) |
+| 🇷🇺 Russian | 83% (305/364) |
+| 🇸🇰 Slovak | 17% (65/364) |
+| 🇸🇮 Slovenian | 30% (110/364) |
+| 🇸🇪 Swedish | 17% (63/364) |
+| 🇵🇭 Tagalog | 17% (65/364) |
+| 🇹🇷 Turkish | 20% (73/364) |
+| 🇺🇦 Ukrainian | 94% (344/364) |
+| 🇻🇳 Vietnamese | 29% (108/364) |
+| 🇨🇳 Chinese (Simplified) | 93% (340/364) |
+| 🇹🇼 Chinese (Traditional) | 80% (294/364) |
 <!-- translations:end -->
