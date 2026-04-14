@@ -102,11 +102,6 @@ fun showBiometricOrPinPromptHidden(
                         onSuccess.invoke()
                     }
 
-                    override fun onAuthenticationFailed() {
-                        super.onAuthenticationFailed()
-                        onFailure.invoke(null)
-                    }
-
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                         super.onAuthenticationError(errorCode, errString)
                         onFailure.invoke(errorCode)
@@ -182,11 +177,6 @@ private fun showBiometricOrPinPrompt(
                     ) {
                         super.onAuthenticationSucceeded(result)
                         onSuccess.invoke(result.cryptoObject!!.cipher!!)
-                    }
-
-                    override fun onAuthenticationFailed() {
-                        super.onAuthenticationFailed()
-                        onFailure.invoke(null)
                     }
 
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
